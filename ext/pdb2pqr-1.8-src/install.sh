@@ -1,0 +1,10 @@
+
+set -x
+
+export CPPFLAGS=-I/usr/lib/python2.7/dist-packages/numpy/core/include/numpy
+
+# FBR: pdb2pqr must be run from where it is compiled
+./configure --with-python=/usr/bin/python2.7 --prefix=$PWD
+make
+#make test
+#make adv-test

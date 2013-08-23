@@ -1,0 +1,25 @@
+OASISFormat: 0.3
+Name: EleKit
+Version: 1.0
+Synopsis: The Electrostatic Kit
+Authors: Francois Berenger and Arnout Voet
+License: GPL-3
+Plugins: META (0.3), DevFiles (0.3)
+
+BuildDepends: batteries, parmap, vector3, dolog
+BuildTools: ocamlbuild
+
+Executable es_tool_pp
+  Path: .
+  CompiledObject: best
+  MainIs: es_tool_pp.ml
+
+Executable es_tool_sp
+  Path: .
+  CompiledObject: best
+  MainIs: es_tool_sp.ml
+
+Executable es_tool_corr
+  Path: .
+  CompiledObject: best
+  MainIs: es_tool_corr.ml

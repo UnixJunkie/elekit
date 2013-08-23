@@ -1,0 +1,35 @@
+# OASIS_START
+# DO NOT EDIT (digest: 85c8362f177bac7d23bed3f00545a65b)
+# Ignore VCS directories, you can use the same kind of rule outside 
+# OASIS_START/STOP if you want to exclude directories that contains 
+# useless stuff for the build process
+<**/.svn>: -traverse
+<**/.svn>: not_hygienic
+".bzr": -traverse
+".bzr": not_hygienic
+".hg": -traverse
+".hg": not_hygienic
+".git": -traverse
+".git": not_hygienic
+"_darcs": -traverse
+"_darcs": not_hygienic
+# Executable es_tool_pp
+<es_tool_pp.{native,byte}>: pkg_batteries
+<es_tool_pp.{native,byte}>: pkg_parmap
+<es_tool_pp.{native,byte}>: pkg_vector3
+<es_tool_pp.{native,byte}>: pkg_dolog
+# Executable es_tool_sp
+<es_tool_sp.{native,byte}>: pkg_batteries
+<es_tool_sp.{native,byte}>: pkg_parmap
+<es_tool_sp.{native,byte}>: pkg_vector3
+<es_tool_sp.{native,byte}>: pkg_dolog
+# Executable es_tool_corr
+<es_tool_corr.{native,byte}>: pkg_batteries
+<es_tool_corr.{native,byte}>: pkg_parmap
+<es_tool_corr.{native,byte}>: pkg_vector3
+<es_tool_corr.{native,byte}>: pkg_dolog
+<*.ml{,i}>: pkg_batteries
+<*.ml{,i}>: pkg_parmap
+<*.ml{,i}>: pkg_vector3
+<*.ml{,i}>: pkg_dolog
+# OASIS_STOP
