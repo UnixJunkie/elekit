@@ -24,6 +24,7 @@ module BS  = BatString
 module Dx  = Dx_parser
 module F   = Filename
 module L   = List
+module Log = Dolog.Log
 module MU  = My_utils
 module P   = Printf
 module Opt = BatOption
@@ -105,13 +106,13 @@ let main () =
                 opts.verbose                          in
   MU.enforce_any_file_extension pdb_A [".pdb"];
   MU.enforce_any_file_extension pdb_B [".pdb"];
-  Log.info (lazy "creating A and B.pqr...");
+  Log.info "creating A and B.pqr...";
   let pqr_A = pdb_to_pqr pdb_A in
   let pqr_B = pdb_to_pqr pdb_B in
   (* all ES fields need to be in the same cartesian space so we
      constrain their origin to be at the center of the receptor protein *)
   let dx_center = Pqr.center_of_pqr_file pqr_A in
-  Log.info (lazy "creating AB pqr...");
+  Log.info "creating AB pqr...";
   let pdb_AB        =
     MU.filename_with_different_extension pdb_A ".pdb" "_AB.pdb" in
   let pqr_AB        =
@@ -131,26 +132,26 @@ let main () =
     MU.filename_with_different_extension pdb_B ".pdb" ".ms.dx" in
   correct_apbs_input_file
     dx_center pdie sdie pqr_B apbs_in_AB apbs_in_B dx_out_B;
-  Log.info (lazy "creating B.dx...");
+  Log.info "creating B.dx...";
   let create_B_dx = apbs ^ " " ^ apbs_in_B in
-  Log.info (lazy ("APBS commands used for the protein ligand: " ^ apbs_in_B));
+  Log.info "APBS commands used for the protein ligand: %s" apbs_in_B;
   print_apbs_dot_in_file apbs_in_B;
   MU.run_command create_B_dx;
-  Log.info (lazy "parsing B.dx...");
+  Log.info "parsing B.dx...";
   let ms_r_B  = ref (Dx.parse_dx_file false ms_out_B) in
   let atoms_A = Pqr.atoms_of_pqr_file pqr_A           in
   let atoms_B = Pqr.atoms_of_pqr_file pqr_B           in
   if verbose then begin
-    Log.info (lazy "dumping atoms_A and atoms_B.pdb...");
+    Log.info "dumping atoms_A and atoms_B.pdb...";
     let mask_A = Dx.inside_VdV_mask atoms_A ms_r_B in
     let mask_B = Dx.inside_VdV_mask atoms_B ms_r_B in
     Dx.mask_to_pdb mask_A ms_r_B "atoms_A.pdb";
     Dx.mask_to_pdb mask_B ms_r_B "atoms_B.pdb";
   end else ();
-  Log.info (lazy "creating masks...");
+  Log.info "creating masks...";
   ignore(dump_mask_around_receptor verbose around_rec pqr_A ms_r_B);
   ignore(dump_mask_around_ligand   verbose around_lig pqr_B ms_r_B);
-  Log.info (lazy ("masks created\n"))
+  Log.info "masks created\n"
 ;;
 
 main()

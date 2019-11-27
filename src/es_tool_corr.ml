@@ -20,6 +20,7 @@
 module A   = Array
 module Dx  = Dx_parser
 module L   = List
+module Log = Dolog.Log
 module MU  = My_utils
 module P   = Printf
 
@@ -110,9 +111,9 @@ let main () =
            "%s %s %s"
            (fun dx_f mask_f m_name -> (dx_f, mask_f, m_name)))
       dx_mask_list in
-  Log.info (lazy ( "parsing lig_prot.dx..."));
+  Log.info "parsing lig_prot.dx...";
   let dx_r_1   = ref (Dx.parse_dx_file false dx1_f) in
-  Log.info (lazy ( "preparing mask..."));
+  Log.info "preparing mask...";
   let mask1    = MU.unmarshal mask1_f            in
   let mask2    = MU.unmarshal mask2_f            in
   let pre_mask = Dx.masks_op [mask1; mask2] (&&) in
@@ -131,20 +132,20 @@ let main () =
                mask_f ".mask.gz" ".pdb" |> Dx.mask_to_pdb mask dx_r_2);
          Sys.remove dx_f; (* rm .dx file after use to save disk space *)
          if values_f <> "" then begin
-           Log.info (lazy ( "writing value pairs out..."));
+           Log.info "writing value pairs out...";
            Dx.output_unmasked_values dx_r_1 dx_r_2 mask values_f;
          end;
-         Log.info (lazy ( "correlating..."));
+         Log.info "correlating...";
          let corr_scores = Dx.map_correl dx_r_1 dx_r_2 mask              in
          let jacc2 = Dx.map_jaccard_2 dx_r_1 dx_r_2 mask                 in
          let jacc3 = Dx.map_jaccard_3 neg_lim pos_lim dx_r_1 dx_r_2 mask in
-         P.printf "%s %s %s %s mol: %s\n"
+         P.printf "%s %s %s %s mol: %s\n%!"
            dx_f
            (sprintf_corr_scores corr_scores)
            (sprintf_jaccard2 jacc2)
            (sprintf_jaccard3 jacc3)
            m_name
-       with MU.Command_failed msg -> Log.warn (lazy msg);
+       with MU.Command_failed msg -> Log.warn "%s" msg;
     )
     (* dx_mask_files *)
     (Parmap.L dx_mask_files)

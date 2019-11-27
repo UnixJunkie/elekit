@@ -24,6 +24,7 @@ module BS   = BatString
 module Dx   = Dx_parser
 module F    = Filename
 module L    = List
+module Log  = Dolog.Log
 module Mol2 = Mol2_parser
 module MU   = My_utils
 module P    = Printf
