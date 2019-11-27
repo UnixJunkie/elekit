@@ -24,7 +24,7 @@ set -u
 #set -e
 
 # USER CONFIG START ##################################################
-HERE=/localhome/berenger/src/EleKit_released/src
+HERE=/home/berenger/src/elekit/src
 # USER CONFIG END ####################################################
 
 function usage() {
